@@ -1,0 +1,13 @@
+{
+  "name": "signalk-polar-graphing",
+  "description": "Webapp showing polar diagram from database of Signal K performance",
+  "main": "web.js",
+  "authors": [
+    "Joachim Bakke"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "signalk-webapp"
+  ],
+  "homepage": ""
+}
