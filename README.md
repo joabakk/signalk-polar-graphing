@@ -1,5 +1,7 @@
 # signalk-polar-graphing
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/joabakk/signalk-polar-graphing.svg)](https://greenkeeper.io/)
+
 This is the front end to be used in conjunction with https://github.com/joabakk/signalk-polar (the backend).
 
 For some reason, you need to run `sudo npm install` from the root folder of this webapp
