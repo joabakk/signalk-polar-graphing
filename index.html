@@ -19,6 +19,7 @@
       }
     }
   }
+  //these design polars fit my boat. Replace, hide or remove as appropriate
   var polarDesign309 = [[0,0],[44.4,3.8],[52,4.19],[60,4.47],[75,4.71],[90,4.65],[110,4.52],[120,4.35],[135,3.81],[150,3.29],[152,3.23]];
   var polarDesign411 = [[0,0],[42.7,4.45],[52,4.98],[60,5.29],[75,5.56],[90,5.49],[110,5.47],[120,5.28],[135,4.72],[150,4.21],[167.7,3.78]];
   var polarDesign514 = [[0,0],[42.8,5.03],[52,5.62],[60,5.88],[75,6.06],[90,6.09],[110,6.09],[120,5.97],[135,5.53],[150,4.99],[167.7,4.55]];
@@ -154,65 +155,6 @@
                 }
               })();
 
-              /*
-              $.getJSON('current', function(jsondata) {//must reside in /var/www
-              x = JSON.parse(jsondata.winddir);
-              y = JSON.parse(jsondata.boatspeed);
-              //alert(x, '  ', y)
-              series.addPoint([x, y], true, true);
-
-              if (windSpeed < 4.11) {
-              for (var i = 3; i < 10; i++) {
-              seriess[i].hide();
-            }
-            seriess[3].show();
-          } else if (windSpeed < 4.11 && windSpeed > 3.09) {
-          for (var i = 3; i < 10; i++) {
-          seriess[i].hide();
-        }
-        seriess[3].show();
-        seriess[4].show();
-      } else if (windSpeed < 5.14 && windSpeed > 4.11) {
-      for (var i = 3; i < 10; i++) {
-      seriess[i].hide();
-    }
-    seriess[4].show();
-    seriess[5].show();
-  } else if (windSpeed < 6.17 && windSpeed > 5.14) {
-  for (var i = 3; i < 10; i++) {
-  seriess[i].hide();
-}
-seriess[5].show();
-seriess[6].show();
-} else if (windSpeed < 7.20 && windSpeed > 6.17) {
-for (var i = 3; i < 10; i++) {
-seriess[i].hide();
-}
-seriess[6].show();
-seriess[7].show();
-} else if (windSpeed < 8.23 && windSpeed > 7.20) {
-for (var i = 3; i < 10; i++) {
-seriess[i].hide();
-}
-seriess[7].show();
-seriess[8].show();
-} else if (windSpeed < 10.29 && windSpeed > 8.23) {
-for (var i = 3; i < 10; i++) {
-seriess[i].hide();
-}
-seriess[8].show();
-seriess[9].show();
-} else {
-seriess[9].show();
-}
-//alert(x,y);
-});*/
-
-
-//working random every second
-//x = 180*Math.random(); // current time
-//y = Math.random();
-//series.addPoint([x, y], true, true);
 
 }, 1000);
 
@@ -220,7 +162,7 @@ seriess[9].show();
 setInterval(function () {
   var chart = $('#container').highcharts(),
   options = chart.options;
-  $.getJSON("/plugins/signalk-polar/windspeed/" + windSpeed + "/interval/" + windRange, function (json) {
+  $.getJSON("/plugins/signalk-polar/polarTable/?windspeed=" + windSpeed + "&interval=" + windRange, function (json) {
     portPolar.length = 0;
     stbPolar.length = 0;
     polarCombined.length = 0;
@@ -471,19 +413,7 @@ $('#toggle').click(function () {
   <script src="node_modules/highcharts/modules/exporting.js"></script>
 
   <script type="text/javascript">
-  /*$(function(){
 
-  var script = document.createElement("script");
-  if (window.location.href.indexOf("night=true") > 0 ){
-  script.src = "js/themes/night.js";
-  console.log("Good Night");
-}
-else{
-console.log("God morgen");
-}
-document.body.appendChild(script);
-
-});*/
 </script>
 <div id="container" style="min-width: 310px; max-width: 800px; height: 600px; margin: 0 auto"></div>
 
