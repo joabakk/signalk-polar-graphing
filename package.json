@@ -1,27 +1,37 @@
 {
-	"name": "signalk-polar-graphing",
-	"version": "0.0.4",
-	"description": "Signal K server front end to display polar data from mySQL db",
-	"keywords": [
-		"signalk-webapp"
-	],
-	"license": "ISC",
-	"author": "Joachim Bakke",
-	"main": "index.js",
-	"scripts": {
-		"test": "mocha"
-	},
-	"dependencies": {
-		"baconjs": "^0.7.88",
-		"debug": "^3.0.1",
-		"highcharts": "^5.0.9",
-		"nmea0183-utilities": "^0.3.2"
-	},
-	"devDependencies": {
-		"chai": "^4.1.2",
-		"chai-things": "^0.2.0",
-		"debug": "^3.0.1",
-		"mocha": "^3.5.3",
-		"signalk-schema": "0.0.1-3"
-	}
+  "author": {
+    "name": "Joachim Bakke"
+  },
+  "dependencies": {
+    "baconjs": "^0.7.88",
+    "debug": "^3.0.1",
+    "highcharts": "^5.0.9",
+    "nmea0183-utilities": "^0.3.2"
+  },
+  "description": "Signal K server front end to display polar data from mySQL db",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-things": "^0.2.0",
+    "debug": "^3.0.1",
+    "mocha": "^3.5.3",
+    "signalk-schema": "0.0.1-3"
+  },
+  "keywords": [
+    "signalk-webapp"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "joabakk",
+      "email": "npm@heiamoss.com"
+    }
+  ],
+  "name": "signalk-polar-graphing",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "test": "mocha"
+  },
+  "version": "0.1.0"
 }
