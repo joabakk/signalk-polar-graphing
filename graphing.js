@@ -118,7 +118,7 @@ $(function () {
             var iter = 2
             Object.keys(userTables).forEach(function(key) {
               chart.addSeries({
-                type: 'spline',
+                type: 'line',
                 name: key.replace(/_/g, " ") + ' m/s',
                 dashStyle: 'shortdashdot',
                 data: userTables[key],
