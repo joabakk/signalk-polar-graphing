@@ -6,15 +6,14 @@
     "baconjs": "^2.0.5",
     "debug": "^3.0.1",
     "highcharts": "^6.0.1",
-    "@signalk/nmea0183-utilities": "^0.6.0"
+    "@signalk/nmea0183-utilities": "^0.6.0",
+    "signalk-schema": "0.0.1-3"
   },
   "description": "Signal K server front end to display polar data from mySQL db",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-things": "^0.2.0",
-    "debug": "^3.0.1",
-    "mocha": "^5.0.0",
-    "signalk-schema": "0.0.1-3"
+    "mocha": "^5.0.0"
   },
   "keywords": [
     "signalk-webapp"
