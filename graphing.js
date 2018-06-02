@@ -72,9 +72,10 @@ var nightmode = false;
 function getWind() {
   (async() => {
     try {
-      var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/speedTrue/value");
-      windSpeed = await response.json();
-      //console.log("wind speed: " + windSpeed)
+      var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/speedOverGround");
+      windSpeedTemp = await response.json();
+      windSpeed = parseFloat(JSON.parse(windSpeedTemp.value))
+      console.log("wind speed: " + windSpeed)
     } catch (e) {
       console.log("Error fetching wind speed")
     }
@@ -134,12 +135,12 @@ $(function () {
             chart = $('#container').highcharts();
             (async() => {
               try {
-                var response = await fetch("/signalk/v1/api/vessels/self/performance/beatAngle/value");
-                var x = await response.json();
+                var response = await fetch("/signalk/v1/api/vessels/self/performance/beatAngle");
+                var x = await response.json().value;
                 tackAngle = Math.abs(x/Math.PI*180);
 
-                response = await fetch("/signalk/v1/api/vessels/self/performance/gybeAngle/value");
-                var y = await response.json();
+                response = await fetch("/signalk/v1/api/vessels/self/performance/gybeAngle");
+                var y = await response.json().value;
                 reachAngle = Math.abs(y/Math.PI*180);
 
               } catch (e) {
@@ -193,11 +194,11 @@ $(function () {
 
             (async() => {
               try {
-                var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/angleTrueWater/value");
-                var x = await response.json();
+                var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/angleTrueGround");
+                var x = await response.json().value;
                 var xDegAbs = Math.abs(x/Math.PI*180);
-                response = await fetch("/signalk/v1/api/vessels/self/navigation/speedThroughWater/value");
-                var y = await response.json();
+                response = await fetch("/signalk/v1/api/vessels/self/navigation/speedThroughWater");
+                var y = await response.json().value;
                 var yKnots = y/1852*3600;
                 //console.log(xDegAbs + " " + yKnots);
                 series.addPoint([xDegAbs, yKnots], true, true);
