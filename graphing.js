@@ -136,11 +136,13 @@ $(function () {
             (async() => {
               try {
                 var response = await fetch("/signalk/v1/api/vessels/self/performance/beatAngle");
-                var x = await response.json().value;
+                var x = await response.json();
+                x = JSON.stringify(x.value)
                 tackAngle = Math.abs(x/Math.PI*180);
 
                 response = await fetch("/signalk/v1/api/vessels/self/performance/gybeAngle");
-                var y = await response.json().value;
+                var y = await JSON.stringify(response.json().value);
+                y = JSON.stringify(y.value);
                 reachAngle = Math.abs(y/Math.PI*180);
 
               } catch (e) {
@@ -195,12 +197,14 @@ $(function () {
             (async() => {
               try {
                 var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/angleTrueGround");
-                var x = await response.json().value;
+                var x = await response.json();
+                x = JSON.stringify(x.value);
                 var xDegAbs = Math.abs(x/Math.PI*180);
                 response = await fetch("/signalk/v1/api/vessels/self/navigation/speedThroughWater");
-                var y = await response.json().value;
+                var y = await response.json();
+                y = JSON.stringify(y.value);
                 var yKnots = y/1852*3600;
-                //console.log(xDegAbs + " " + yKnots);
+                console.log(xDegAbs + " " + yKnots);
                 series.addPoint([xDegAbs, yKnots], true, true);
 
               } catch (e) {
@@ -223,7 +227,7 @@ $(function () {
                 if(entry['angle'] > 0){
                   var windDeg = (entry['angle']/Math.PI*180);
                   var speedKnots = entry['speed']/1852*3600;
-                  //console.log(windDeg + ',' + speedKnots);
+                  console.log(windDeg + ',' + speedKnots);
                   var polarItem = [windDeg , speedKnots];
                   stbPolar.push(polarItem); //positive angles
                 }
@@ -231,7 +235,7 @@ $(function () {
                 if(entry['angle'] < 0){
                   var windDeg = (entry['angle']/Math.PI*180);
                   var speedKnots = entry['speed']/1852*3600;
-                  //console.log(windDeg + ',' + speedKnots);
+                  console.log(windDeg + ',' + speedKnots);
                   var polarItem = [-windDeg , speedKnots];
                   portPolar.push(polarItem); //negative angles
                 }
