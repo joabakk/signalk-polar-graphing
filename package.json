@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "baconjs": "^2.0.5",
-    "debug": "^3.0.1",
+    "debug": "^4.1.1",
     "highcharts": "^6.0.1",
     "@signalk/nmea0183-utilities": "^0.6.0",
     "signalk-schema": "0.0.1-3"
