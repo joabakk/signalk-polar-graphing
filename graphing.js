@@ -1,4 +1,4 @@
-var tableIndexMax = 2 //should start as 2, port, starboard and combined already hard-coded
+var tableIndexMax = 2 //port, starboard and combined hard coded
 const tableData = {}
 var vesselName
 
@@ -16,34 +16,33 @@ function getVesselName(){
 }
 
 function getTables(err, response){ // get user entered polars
+  $.getJSON("/plugins/signalk-polar/polarTables", function(json) {
+    json.polars.forEach(function(polar){
+      tableIndexMax ++
+      polar = Object.values(polar)[0]
+      var tableNameMain = polar.name
+      var tableDescription = polar.description
+      console.log(tableNameMain)
 
-  $.getJSON("/plugins/signalk-polar/listPolarTables", function(json) {
-    json.forEach(function(table) {
-      if(table.name!='polar'){// only show user entered values this way
-        tableIndexMax ++
-        $.getJSON("/plugins/signalk-polar/listWindSpeeds?table=" + table.name, function (windSpeeds) {
-          windSpeeds.forEach(function nameTables(windSpeed){
-            var tableName = table.name + "_" + windSpeed.windSpeed
-            //tableData.push(tableName) //
-            const polarArray = [];
-            tableData[tableName]= polarArray;
-            //console.log("tableData: " + tableData)
-            $.getJSON("/plugins/signalk-polar/polarTable/?windspeed=" + (windSpeed.windSpeed + 0.01) + "&interval=0.1&table=" + table.name, function (combination) {
-              combination.forEach(function(entry){
-                var windDeg = Math.abs(entry['angle']/Math.PI*180);
-                var speedKnots = entry['speed']/1852*3600;
-                var item = [windDeg, speedKnots]
-                polarArray.push(item)
-              })
-            })
-          })
-        });
-      }
-    });
+
+      polar.polarData.forEach(function(entry){//for each wind speed
+        var windSpeed = Math.abs(entry['trueWindSpeed']);
+        var tableName = tableNameMain + "_" + windSpeed
+        const polarArray = []
+        var windAngles = entry.trueWindAngles
+        var boatSpeeds = entry.polarSpeeds
+        for (index = 0; index < windAngles.length; ++index) {
+          tableData[tableName] = polarArray
+          var windDeg = Math.abs(windAngles[index]/Math.PI*180);
+          var speedKnots = boatSpeeds[index]/1852*3600;
+          var item = [windDeg, speedKnots]
+          polarArray.push(item)
+        }
+      })
+    })
     //console.log("response max index: " + tableIndexMax) //ok here
+  })
 
-
-  });
 
   if(err){
     console.log("error: " + err)
@@ -115,15 +114,16 @@ $(function () {
             });
 
             console.log("max index: " + tableIndexMax)
-            console.log("tableData: " + JSON.stringify(userTables, null, 4));
+            //console.log("tableData: " + JSON.stringify(userTables, null, 4));
             var iter = 2
             Object.keys(userTables).forEach(function(key) {
+              console.log(key, userTables[key])
               chart.addSeries({
                 type: 'line',
                 name: key.replace(/_/g, " ") + ' m/s',
                 dashStyle: 'shortdashdot',
                 data: userTables[key],
-                visible: true,
+                visible: false,
                 connectEnds: false
               })
             })
