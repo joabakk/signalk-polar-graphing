@@ -1,6 +1,7 @@
 var tableIndexMax = 2 //port, starboard and combined hard coded
 const tableData = {}
 var vesselName
+var tableOverview = []
 
 function getVesselName(){
   (async() => {
@@ -21,10 +22,9 @@ function getTables(err, response){ // get user entered polars
       tableIndexMax ++
       polar = Object.values(polar)[0]
       var tableNameMain = polar.name
+      tableOverview.push(tableNameMain)
       var tableDescription = polar.description
       console.log(tableNameMain)
-
-
       polar.polarData.forEach(function(entry){//for each wind speed
         var windSpeed = Math.abs(entry['trueWindSpeed']);
         var tableName = tableNameMain + "_" + windSpeed
@@ -33,13 +33,14 @@ function getTables(err, response){ // get user entered polars
         var boatSpeeds = entry.polarSpeeds
         for (index = 0; index < windAngles.length; ++index) {
           tableData[tableName] = polarArray
-          var windDeg = Math.abs(windAngles[index]/Math.PI*180);
+          var windDeg = windAngles[index]/Math.PI*180
           var speedKnots = boatSpeeds[index]/1852*3600;
           var item = [windDeg, speedKnots]
           polarArray.push(item)
         }
       })
     })
+    //console.log("tables: " + JSON.stringify(tableOverview))
     //console.log("response max index: " + tableIndexMax) //ok here
   })
 
@@ -113,11 +114,11 @@ $(function () {
               text: vesselName + ' live polar chart'
             });
 
-            console.log("max index: " + tableIndexMax)
+            //console.log("max index: " + tableIndexMax)
             //console.log("tableData: " + JSON.stringify(userTables, null, 4));
             var iter = 2
             Object.keys(userTables).forEach(function(key) {
-              console.log(key, userTables[key])
+              //console.log(key, userTables[key])
               chart.addSeries({
                 type: 'line',
                 name: key.replace(/_/g, " ") + ' m/s',
@@ -145,7 +146,8 @@ $(function () {
                 y = JSON.stringify(y.value);
                 reachAngle = Math.abs(y/Math.PI*180);
 
-              } catch (e) {
+              }
+              catch (e) {
                 console.log("Error fetching beat and gybe angles")
               }
 
@@ -190,16 +192,21 @@ $(function () {
           var seriess = this.series;
 
           setInterval(function () {
-            var subTitle = getWind().toFixed(2)+' +/-'+windRange+' m/s';
-            //alert(subTitle);
-            chart.setTitle(null, {text: subTitle});
+            try {
+              var subTitle = getWind().toFixed(2)+' +/-'+windRange+' m/s';
+              //alert(subTitle);
+              chart.setTitle(null, {text: subTitle});
+            } catch (e) {
+              console.log("Error fetching wind speed")
+            }
 
             (async() => {
               try {
                 var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/angleTrueGround");
                 var x = await response.json();
                 x = JSON.stringify(x.value);
-                var xDegAbs = Math.abs(x/Math.PI*180);
+                var xDeg = x/Math.PI*180 //future -180 to 180 deg
+                var xDegAbs = Math.abs(xDeg)
                 response = await fetch("/signalk/v1/api/vessels/self/navigation/speedThroughWater");
                 var y = await response.json();
                 y = JSON.stringify(y.value);
@@ -266,18 +273,19 @@ $(function () {
 
     legend: {
       verticalAlign: "middle",
+      align: "right",
       layout: "vertical"
     },
 
     pane: {
-      center: ["0%", "50%"],
-      startAngle: 0,
+      center: ["50%", "50%"],
+      startAngle: -180,
       endAngle: 180
     },
 
     xAxis: {
       tickInterval: 45,
-      min: 0,
+      min: -180,
       max: 180,
       labels: {
         formatter: function () {
