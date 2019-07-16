@@ -89,7 +89,10 @@ $(function () {
   Highcharts.setOptions({
     global : {
       useUTC : false
-    }
+    },
+    series: {
+            connectNulls: true
+        }
   });
 
   $('#container').highcharts({
@@ -125,7 +128,8 @@ $(function () {
                 dashStyle: 'shortdashdot',
                 data: userTables[key],
                 visible: false,
-                connectEnds: false
+                connectEnds: false,
+                connectNulls: true
               })
             })
           }, 500)
@@ -329,8 +333,7 @@ $(function () {
       series: {
         pointStart: 0,
         pointInterval: 45,
-        enableMouseTracking: false,
-        connectNulls: true
+        enableMouseTracking: false
 
       },
       column: {
