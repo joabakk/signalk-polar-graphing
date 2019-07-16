@@ -329,7 +329,8 @@ $(function () {
       series: {
         pointStart: 0,
         pointInterval: 45,
-        enableMouseTracking: false
+        enableMouseTracking: false,
+        connectNulls: true
 
       },
       column: {
