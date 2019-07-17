@@ -34,7 +34,13 @@ function getTables(err, response){ // get user entered polars
         for (index = 0; index < windAngles.length; ++index) {
           tableData[tableName] = polarArray
           var windDeg = windAngles[index]/Math.PI*180
-          var speedKnots = boatSpeeds[index]/1852*3600;
+          var speedKnots
+          if(boatSpeeds[index]==null){
+            speedKnots = null
+          }
+          else {
+            speedKnots = boatSpeeds[index]/1852*3600
+          }
           var item = [windDeg, speedKnots]
           polarArray.push(item)
         }
@@ -74,7 +80,7 @@ function getWind() {
     try {
       var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/speedOverGround");
       windSpeedTemp = await response.json();
-      windSpeed = parseFloat(JSON.parse(windSpeedTemp.value))
+      windSpeed = parseFloat(windSpeedTemp.value)
       console.log("wind speed: " + windSpeed)
     } catch (e) {
       console.log("Error fetching wind speed")
@@ -135,19 +141,18 @@ $(function () {
           }, 500)
 
           // set up the updating of the plotlines each second
+          /*
           setInterval(function () {
 
             chart = $('#container').highcharts();
             (async() => {
               try {
                 var response = await fetch("/signalk/v1/api/vessels/self/performance/beatAngle");
-                var x = await response.json();
-                x = JSON.stringify(x.value)
+                var x = await JSON.stringify(response.json().value);
                 tackAngle = Math.abs(x/Math.PI*180);
 
                 response = await fetch("/signalk/v1/api/vessels/self/performance/gybeAngle");
                 var y = await JSON.stringify(response.json().value);
-                y = JSON.stringify(y.value);
                 reachAngle = Math.abs(y/Math.PI*180);
 
               }
@@ -187,9 +192,10 @@ $(function () {
                   x: 0//20
                 }
               });
+
             })();
           }, 1000);
-
+          */
           // set up the updating of the chart each second
 
           var series = this.series[tableIndexMax + 1];
@@ -207,16 +213,15 @@ $(function () {
             (async() => {
               try {
                 var response = await fetch("/signalk/v1/api/vessels/self/environment/wind/angleTrueGround");
-                var x = await response.json();
-                x = JSON.stringify(x.value);
+                var xf = await response.json()
+                var x = parseFloat(xf.value)
                 var xDeg = x/Math.PI*180 //future -180 to 180 deg
-                var xDegAbs = Math.abs(xDeg)
                 response = await fetch("/signalk/v1/api/vessels/self/navigation/speedThroughWater");
-                var y = await response.json();
-                y = JSON.stringify(y.value);
+                var yf = await response.json()
+                var y = parseFloat(yf.value)
                 var yKnots = y/1852*3600;
-                console.log(xDegAbs + " " + yKnots);
-                series.addPoint([xDegAbs, yKnots], true, true);
+                console.log("current dot:" + xDeg + " " + yKnots);
+                series.addPoint([xDeg, yKnots], true, true);
 
               } catch (e) {
                 console.log("Error fetching wind angle and boat speed")
@@ -227,6 +232,7 @@ $(function () {
           }, 1000);
 
           //update current polar each second
+          /*
           setInterval(function () {
             var chart = $('#container').highcharts(),
             options = chart.options;
@@ -265,6 +271,7 @@ $(function () {
             });
 
           }, 1000);
+          */
 
 
 
@@ -333,7 +340,8 @@ $(function () {
       series: {
         pointStart: 0,
         pointInterval: 45,
-        enableMouseTracking: false
+        enableMouseTracking: false,
+        connectNulls: true
 
       },
       column: {
@@ -344,7 +352,7 @@ $(function () {
         marker: {
           enabled: false
         },
-        connectNulls: false
+        connectNulls: true
       },
       scatter: {
         dataLabels: {
@@ -366,6 +374,7 @@ $(function () {
       data: portPolar,
       visible: false,
       connectEnds: false,
+      connectNulls: true,
       turboThreshold: 0
     }, {
       type: 'line',
@@ -374,6 +383,7 @@ $(function () {
       data: stbPolar,
       visible: false,
       connectEnds: false,
+      connectNulls: true,
       turboThreshold: 0
     },{
       type: 'line',
@@ -382,6 +392,7 @@ $(function () {
       //color: 'blue',
       data: polarCombined,
       connectEnds: false,
+      connectNulls: true,
       turboThreshold: 0
     },{
       type: 'scatter',
