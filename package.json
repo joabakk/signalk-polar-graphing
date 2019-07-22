@@ -16,7 +16,6 @@
     "mocha": "^5.0.0"
   },
   "keywords": [
-    "signalk-webapp"
   ],
   "license": "ISC",
   "main": "index.js",
