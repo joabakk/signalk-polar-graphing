@@ -15,8 +15,7 @@
     "chai-things": "^0.2.0",
     "mocha": "^5.0.0"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "license": "ISC",
   "main": "index.js",
   "maintainers": [
@@ -31,5 +30,5 @@
   "scripts": {
     "test": "mocha"
   },
-  "version": "2.0.3"
+  "version": "2.0.4"
 }
