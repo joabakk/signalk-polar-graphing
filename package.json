@@ -3,7 +3,7 @@
     "name": "Joachim Bakke"
   },
   "dependencies": {
-    "baconjs": "^2.0.5",
+    "baconjs": "^2.0.13",
     "debug": "^3.0.1",
     "highcharts": "^6.0.1",
     "@signalk/nmea0183-utilities": "^0.6.0",
